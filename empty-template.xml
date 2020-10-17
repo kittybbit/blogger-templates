@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html b:css='false' b:defaultwidgetversion='2' b:layoutsVersion='3' b:responsive='true' b:templateUrl='' b:templateVersion='1.0.0' expr:dir='data:blog.languageDirection' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
+    <head>
+        <b:if cond='false'>
+            <b:skin>
+                <![CDATA[]]>
+            </b:skin>
+        </b:if>
+    </head>
+    <body>
+        <b:if cond='false'>
+            <b:section id='main' showaddelement='yes' />
+        </b:if>
+    </body>
+</html>
