@@ -19,6 +19,8 @@
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.12.0/tocbot.css" integrity="sha512-2kqK5bWDwdrluTn6Wkj+jgiwyzvAHLirVp08Kz7kN5I8PWQ0tUtEMxfhyWDCrnws91BJ9PfrUy6ImfA7Qb22TA==" crossorigin="anonymous" />
             <!-- mermaid.js -->
             <script async src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.8.2/mermaid.min.js" integrity="sha512-x8NWYlEsC86ngfO24tbxW6pMuyn9gYnwEW0FcSobohDc3iLCXhmRkqYXgTfE7Jwy2YCTnHRfyum8LUIiyvmgWQ==" crossorigin="anonymous"></script>
+            <!-- mathjax.js -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.1.2/es5/tex-mml-chtml.min.js" integrity="sha512-7rZgZU/u5XjLaO7dBpkcvZ2+ilGXbdIak0FXUgMoO+adNy7RUceort055Wn7LkZY3VLwEsSDpi8Ui+32N1vrfw==" crossorigin="anonymous"></script>
             <!-- initialize -->
             <script type="text/javascript">
                 $(function(){
@@ -59,6 +61,13 @@
 
                     // mermaid.js
                     mermaid.initialize({startOnLoad:true});
+
+                    // mathjax.js
+                    MathJax = {
+                        tex: {
+                          inlineMath: [['$', '$'], ['\\(', '\\)']]
+                        }
+                    };
                 });
             </script>
         </b:if>
