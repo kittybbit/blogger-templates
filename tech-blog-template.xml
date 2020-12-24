@@ -188,7 +188,7 @@
                             padding: 0.75rem 1rem;
                             position: absolute;
                             top: 0px;
-                            right: 13px;
+                            right: 1rem;
                             text-align: center;
                             z-index: 5;
                         }
@@ -316,6 +316,27 @@
                         }
                         .k-wrap {
                             line-break: anywhere;
+                        }
+                        .k-line-clump-3 {
+                            display: -webkit-box;
+                            text-overflow: ellipsis;
+                            -webkit-box-orient: vertical;
+                            -webkit-line-clamp: 3;
+                            overflow: hidden;
+                        }
+                        .k-line-clump-5 {
+                            display: -webkit-box;
+                            text-overflow: ellipsis;
+                            -webkit-box-orient: vertical;
+                            -webkit-line-clamp: 5;
+                            overflow: hidden;
+                        }
+                        .k-line-clump-8 {
+                            display: -webkit-box;
+                            text-overflow: ellipsis;
+                            -webkit-box-orient: vertical;
+                            -webkit-line-clamp: 8;
+                            overflow: hidden;
                         }
                         ]]>
         </b:skin>
@@ -601,6 +622,56 @@
                     <i aria-hidden='true' class="fa fa-search text-primary k-search-button" />
                 </b:includable>
             </b:defaultmarkup>
+            <b:defaultmarkup type='Label'>
+                <b:includable id='main'>
+                    <b:if cond='data:title'>
+                        <h2>
+                            <data:title />
+                        </h2>
+                    </b:if>
+                    <b:with value='data:labels' var='labels'>
+                        <b:include expr:name='data:display' />
+                    </b:with>
+                </b:includable>
+                <b:includable id='labelUrl'>
+                    <b:attr expr:value='data:label.url' expr:name='data:isHref ? "href" : "value"' />
+                </b:includable>
+                <b:includable id='list'>
+                    <nav class='nav flex-column'>
+                        <b:loop values='data:labels' var='label'>
+                            <b:with value='data:view.search.label.escaped == data:label.name' var='isCurrent'>
+                                <b:tag expr:name='data:isCurrent ? "span" : "a"'>
+                                    <b:attr expr:value='data:isCurrent ? "nav-item mw-100 text-truncate disabled" : "nav-item mw-100 text-truncate"' name='class' />
+                                    <b:if cond='data:showFreqNumbers'>
+                                        <span>
+                                            <b:attr expr:value='data:isCurrent ? "badge badge-pill badge-secondary" : "badge badge-pill badge-primary"' name='class' />
+                                            <data:label.count />
+                                        </span>
+                                    </b:if>
+                                    <b:include cond='not data:isCurrent' data='{ isHref: true }' name='labelUrl' />
+                                    <data:label.name />
+                                </b:tag>
+                            </b:with>
+                        </b:loop>
+                    </nav>
+                </b:includable>
+                <b:includable id='cloud'>
+                    <nav>
+                        <b:loop values='data:labels' var='label'>
+                            <b:with value='data:view.search.label.escaped == data:label.name' var='isCurrent'>
+                                <b:tag expr:name='data:isCurrent ? "span" : "a"'>
+                                    <b:include cond='not data:isCurrent' data='{ isHref: true }' name='labelUrl' />
+                                    <b:attr expr:value='data:isCurrent ? "badge badge-secondary text-truncate mw-100 mb-1" : "badge badge-primary text-truncate mw-100 mb-1"' name='class' />
+                                    <b:if cond='data:showFreqNumbers'>
+                                        (<data:label.count />)
+                                    </b:if>
+                                    <data:label.name />
+                                </b:tag>
+                            </b:with>
+                        </b:loop>
+                    </nav>
+                </b:includable>
+            </b:defaultmarkup>
         </b:defaultmarkups>
     </head>
 
@@ -633,7 +704,9 @@
                     </b:section>
                 </main>
                 <aside class='k-side-outer col-12 col-lg-3'>
-                    <b:section id='Side1' showaddelement='yes' />
+                    <b:section id='Side1' showaddelement='yes'>
+                        <b:widget id='Label1' locked='false' title='ラベル' type='Label' visible='true' />
+                    </b:section>
                     <b:if cond='data:view.isSingleItem'>
                         <nav class='js-toc-lg toc navbar navbar-light bg-light sticky-top d-none d-lg-block'></nav>
                     </b:if>
