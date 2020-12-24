@@ -172,7 +172,7 @@
                             padding: 0.75rem 1rem;
                             position: absolute;
                             top: 0px;
-                            right: 1rem;
+                            right: 0px;
                             transition: all 0.5s;
                         }
                         .k-search-text:focus {
@@ -601,20 +601,69 @@
                     <i aria-hidden='true' class="fa fa-search text-primary k-search-button" />
                 </b:includable>
             </b:defaultmarkup>
+            <b:defaultmarkup type='Label'>
+                <b:includable id='main'>
+                    <b:if cond='data:title and not data:isCustomList'>
+                        <h2>
+                            <data:title />
+                        </h2>
+                    </b:if>
+                    <div expr:class='"widget-content " + data:display + "-label-widget-content"'>
+                        <b:with value='data:labels' var='labels'>
+                            <b:include expr:name='data:display' />
+                        </b:with>
+                    </div>
+                </b:includable>
+                <b:includable id='labelUrl'>
+                    <b:attr expr:value='(data:blog.searchUrl params { label: data:label.name }).escaped' expr:name='data:isHref ? "href" : "value"' />
+                </b:includable>
+                <b:includable id='list'>
+                        <b:loop values='data:labels' var='label'>
+                            <b:with value='data:view.search.label.escaped == data:label.name' var='isCurrent'>
+                                <b:tag expr:name='data:isCurrent ? "button" : "a"'>
+                                    <b:include cond='not data:isCurrent' data='{ isHref: true }' name='labelUrl' />
+                                    <data:label.name />
+                                    <b:if cond='data:showFreqNumbers'>
+                                        (<data:label.count />)
+                                    </b:if>
+                                </b:tag>
+                            </b:with>
+                        </b:loop>
+                </b:includable>
+                <b:includable id='cloud'>
+                    <b:loop values='data:labels' var='label'>
+                        <b:with value='data:view.search.label.escaped == data:label.name' var='isCurrent'>
+                            <span expr:class='"label-size label-size-" + data:label.cssSize'>
+                                <b:tag expr:name='data:isCurrent ? "span" : "a"' expr:dir='data:blog.languageDirection'>
+                                    <b:include cond='not data:isCurrent' data='{ isHref: true }' name='labelUrl' />
+                                    <data:label.name />
+                                </b:tag>
+                                <b:if cond='data:showFreqNumbers'>
+                                    <span class='label-count' dir='ltr'>
+                                        (
+                                        <data:label.count />
+                                        )
+                                    </span>
+                                </b:if>
+                            </span>
+                        </b:with>
+                    </b:loop>
+                </b:includable>
+            </b:defaultmarkup>
         </b:defaultmarkups>
     </head>
 
     <body>
         <div class='container-fluid'>
             <div class='row pb-1'>
-                <header class='k-header-outer col-12'>
+                <div class='k-header-outer col-12'>
                     <b:section id='PageHeader' showaddelement='yes'>
                         <b:widget id='Header1' locked='false' title='ヘッダー' type='Header' visible='true' />
                     </b:section>
-                </header>
+                </div>
             </div>
             <div class='row'>
-                <main class='col-12 col-lg-9'>
+                <div class='col-12 col-lg-9'>
                     <div class='row'>
                         <div class='col-12 col-lg-2' />
                         <div class='col-12 col-lg-10'>
@@ -631,19 +680,21 @@
                     <b:section id='Post' showaddelement='no'>
                         <b:widget id='Blog1' locked='true' title='投稿' type='Blog' visible='true' />
                     </b:section>
-                </main>
-                <aside class='k-side-outer col-12 col-lg-3'>
-                    <b:section id='Side1' showaddelement='yes' />
+                </div>
+                <div class='k-side-outer col-12 col-lg-3'>
+                    <b:section id='Side1' showaddelement='yes'>
+                        <b:widget id='Label1' locked='false' title='ラベル' type='Label' visible='true' />
+                    </b:section>
                     <b:if cond='data:view.isSingleItem'>
                         <nav class='js-toc-lg toc navbar navbar-light bg-light sticky-top d-none d-lg-block'></nav>
                     </b:if>
                     <b:section id='Side2' showaddelement='yes' />
-                </aside>
+                </div>
             </div>
             <div class='row'>
-                <footer class='k-footer-outer col-12'>
+                <div class='k-footer-outer col-12'>
                     <b:section id='Footer' maxwidgets='1' showaddelement='yes' />
-                </footer>
+                </div>
                 <!-- Designed by KITTYBBIT -->
             </div>
         </div>
