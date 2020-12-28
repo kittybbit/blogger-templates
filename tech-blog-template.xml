@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<html b:css='false' b:js='true' b:defaultwidgetversion='2' b:layoutsVersion='3' b:responsive='true' b:templateUrl='' b:templateVersion='1.0.0' expr:dir='data:blog.languageDirection' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
+<!DOCTYPE html>
+<html b:css='false' b:js='true' b:defaultwidgetversion='2' b:layoutsVersion='3' b:responsive='true' b:templateUrl='' b:templateVersion='1.0.0' expr:dir='data:blog.languageDirection' expr:lang='data:blog.locale' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
     <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# website: http://ogp.me/ns/website#">
         <meta content='width=device-width,initial-scale=1.0' name='viewport' />
         <b:include data='blog' name='all-head-content' />
@@ -495,7 +496,7 @@
                         <div class='col-12 col-lg-10'>
                             <b:if cond='data:blog.pageType in {&quot;item&quot;, &quot;static_page&quot;}'>
                                 <b:with value='data:posts.first' var='post'>
-                                    <div class='k-item'>
+                                    <article class='k-item'>
                                         <div class='k-item-header'>
                                             <h3 class='k-item-header-title k-wrap'>
                                                 <data:post.title />
@@ -520,10 +521,10 @@
                                         <div class='k-item-body js-toc-content'>
                                             <data:post.body />
                                         </div>
-                                    </div>
+                                    </article>
                                 </b:with>
                                 <b:else />
-                                <div class='k-index'>
+                                <main class='k-index'>
                                     <b:loop values='data:posts' var='post'>
                                         <div class='k-index-item card mb-3'>
                                             <div class="card-body">
@@ -550,7 +551,7 @@
                                             </div>
                                         </div>
                                     </b:loop>
-                                </div>
+                                </main>
                             </b:if>
                         </div>
                         <div class='col-12 col-lg-2 pb-2' />
@@ -625,9 +626,9 @@
             <b:defaultmarkup type='Label'>
                 <b:includable id='main'>
                     <b:if cond='data:title'>
-                        <h2>
+                        <h3>
                             <data:title />
-                        </h2>
+                        </h3>
                     </b:if>
                     <b:with value='data:labels' var='labels'>
                         <b:include expr:name='data:display' />
@@ -685,10 +686,10 @@
                 </header>
             </div>
             <div class='row'>
-                <main class='col-12 col-lg-9'>
+                <div class='col-12 col-lg-9'>
                     <div class='row'>
                         <div class='col-12 col-lg-2' />
-                        <div class='col-12 col-lg-10'>
+                        <nav class='col-12 col-lg-10'>
                             <b:section id='PostHeader' showaddelement='no'>
                                 <b:widget id='HTML1' locked='true' title='BreadCrumb' type='HTML' visible='true'>
                                     <b:includable id='main'>
@@ -697,15 +698,16 @@
                                 </b:widget>
                                 <b:widget id='BlogSearch1' locked='true' title='このブログを検索' type='BlogSearch' visible='true' />
                             </b:section>
-                        </div>
+                        </nav>
                     </div>
                     <b:section id='Post' showaddelement='no'>
                         <b:widget id='Blog1' locked='true' title='投稿' type='Blog' visible='true' />
                     </b:section>
-                </main>
+                </div>
                 <aside class='k-side-outer col-12 col-lg-3'>
                     <b:section id='Side1' showaddelement='yes'>
                         <b:widget id='Label1' locked='false' title='ラベル' type='Label' visible='true' />
+                        <b:widget id='BlogArchive1' locked='false' title='' type='BlogArchive' visible='true' />
                     </b:section>
                     <b:if cond='data:view.isSingleItem'>
                         <nav class='js-toc-lg toc navbar navbar-light bg-light sticky-top d-none d-lg-block'></nav>
