@@ -375,6 +375,27 @@
                         </ol>
                     </nav>
                 </b:includable>
+                <b:includable id='widget-title'>
+                    <b:if cond='data:renderAsDetails'>
+                        <summary>
+                            <div class='collapsible-title'>
+                                <h4 class='title'>
+                                    <b:if cond='data:defaultTitle or data:title'>
+                                        <b:eval expr='data:defaultTitle ?: data:title' />
+                                        <b:else />
+                                        <data:messages.widget />
+                                    </b:if>
+                                </h4>
+                                <b:include data='{ iconClass: "chevron-down" }' name='chevronDownIcon' />
+                                <b:include data='{ iconClass: "chevron-up" }' name='chevronUpIcon' />
+                            </div>
+                        </summary>
+                        <b:elseif cond='data:defaultTitle or data:title' />
+                        <h4 class='title'>
+                            <b:eval expr='data:defaultTitle ?: data:title' />
+                        </h4>
+                    </b:if>
+                </b:includable>
             </b:defaultmarkup>
             <b:defaultmarkup type='Blog,FeaturedPost,PopularPosts'>
                 <b:includable id='shareButtons' var='post'>
@@ -625,11 +646,7 @@
             </b:defaultmarkup>
             <b:defaultmarkup type='Label'>
                 <b:includable id='main'>
-                    <b:if cond='data:title'>
-                        <h3>
-                            <data:title />
-                        </h3>
-                    </b:if>
+                    <b:include name='widget-title' />
                     <b:with value='data:labels' var='labels'>
                         <b:include expr:name='data:display' />
                     </b:with>
@@ -707,7 +724,6 @@
                 <aside class='k-side-outer col-12 col-lg-3'>
                     <b:section id='Side1' showaddelement='yes'>
                         <b:widget id='Label1' locked='false' title='ラベル' type='Label' visible='true' />
-                        <b:widget id='BlogArchive1' locked='false' title='' type='BlogArchive' visible='true' />
                     </b:section>
                     <b:if cond='data:view.isSingleItem'>
                         <nav class='js-toc-lg toc navbar navbar-light bg-light sticky-top d-none d-lg-block'></nav>
