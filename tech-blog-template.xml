@@ -657,7 +657,7 @@
                     <b:attr expr:value='data:label.url' expr:name='data:isHref ? "href" : "value"' />
                 </b:includable>
                 <b:includable id='list'>
-                    <nav class='nav flex-column'>
+                    <nav class='nav mb-3 flex-column'>
                         <b:loop values='data:labels' var='label'>
                             <b:with value='data:view.search.label.escaped == data:label.name' var='isCurrent'>
                                 <b:tag expr:name='data:isCurrent ? "span" : "a"'>
@@ -676,7 +676,7 @@
                     </nav>
                 </b:includable>
                 <b:includable id='cloud'>
-                    <nav>
+                    <nav class='mb-3'>
                         <b:loop values='data:labels' var='label'>
                             <b:with value='data:view.search.label.escaped == data:label.name' var='isCurrent'>
                                 <b:tag expr:name='data:isCurrent ? "span" : "a"'>
@@ -690,6 +690,89 @@
                             </b:with>
                         </b:loop>
                     </nav>
+                </b:includable>
+            </b:defaultmarkup>
+            <b:defaultmarkup type='BlogArchive'>
+                <b:includable id='main'>
+                    <b:include name='widget-title' />
+                    <b:include name='content' />
+                </b:includable>
+                <b:includable id='archiveUrl'>
+                    <b:attr expr:value='data:i.url' expr:name='data:isHref ? "href" : "value"' />
+                </b:includable>
+                <b:includable id='content'>
+                    <div class='mb-3'>
+                        <b:include cond='data:style == &quot;HIERARCHY&quot;' name='hierarchy' />
+                        <b:include cond='data:style == &quot;FLAT&quot;' name='flat' />
+                        <b:include cond='data:style == &quot;MENU&quot;' name='menu' />
+                    </div>
+                </b:includable>
+                <b:includable id='flat'>
+                    <nav class='nav flex-column'>
+                        <b:loop values='data:data' var='i'>
+                            <b:with value='data:view.url == data:i.url' var='isCurrent'>
+                                <b:tag expr:name='data:isCurrent ? "span" : "a"'>
+                                    <b:include cond='not data:isCurrent' data='{ isHref: true }' name='archiveUrl' />
+                                    <b:attr expr:value='data:isCurrent ? "nav-item mw-100 text-truncate disabled" : "nav-item mw-100 text-truncate"' name='class' />
+                                    <span>
+                                        <b:attr expr:value='data:isCurrent ? "badge badge-pill badge-secondary" : "badge badge-pill badge-primary"' name='class' />
+                                        <data:i.post-count />
+                                    </span>
+                                    <data:i.name />
+                                </b:tag>
+                            </b:with>
+                        </b:loop>
+                    </nav>
+                </b:includable>
+                <b:includable id='menu'>
+                    <nav class='form-group'>
+                        <select class='form-control' onChange="location.href=value;">
+                            <b:if cond='not data:view.isArchive'>
+                                <option value='#'>---</option>
+                            </b:if>
+                            <b:loop values='data:data' var='i'>
+                                <option expr:value='data:i.url'>
+                                    <b:attr expr:value='data:view.url == data:i.url ? "selected" : ""' name='selected' />
+                                    (<data:i.post-count />)<data:i.name />
+                                </option>
+                            </b:loop>
+                        </select>
+                    </nav>
+                </b:includable>
+                <b:includable id='hierarchy'>
+                    <nav>
+                        <b:include data='data' name='interval' />
+                    </nav>
+                </b:includable>
+                <b:includable id='interval' var='intervals'>
+                    <div expr:class='data:indent ? "nav flex-column mw-100 pl-3" : "nav flex-column mw-100"'>
+                        <b:loop values='data:intervals' var='i'>
+                            <b:with value='data:view.url == data:i.url' var='isCurrent'>
+                                <b:tag expr:name='data:isCurrent ? "span" : "a"'>
+                                    <b:include cond='not data:isCurrent' data='{ isHref: true }' name='archiveUrl' />
+                                    <b:attr expr:value='data:isCurrent ? "nav-item disabled" : "nav-item"' name='class' />
+                                    <span>
+                                        <b:attr expr:value='data:isCurrent ? "badge badge-secondary badge-pill" : "badge badge-primary badge-pill"' name='class' />
+                                        <data:i.post-count />
+                                    </span>
+                                    <data:i.name />
+                                </b:tag>
+                            </b:with>
+                            <b:with value='true' var='indent'>
+                                <b:include cond='data:i.data' data='i.data' name='interval' />
+                                <b:include cond='data:i.posts' data='i.posts' name='posts' />
+                            </b:with>
+                        </b:loop>
+                    </div>
+                </b:includable>
+                <b:includable id='posts' var='posts'>
+                    <div class='nav flex-column mw-100 pl-3'>
+                        <b:loop values='data:posts' var='post'>
+                            <a expr:href='data:post.url' class='nav-item mw-100 text-truncate'>
+                                <data:post.title />
+                            </a>
+                        </b:loop>
+                    </div>
                 </b:includable>
             </b:defaultmarkup>
         </b:defaultmarkups>
@@ -724,13 +807,15 @@
                     </b:section>
                 </div>
                 <aside class='k-side-outer col-12 col-lg-3'>
+                    <b:if cond='data:view.isSingleItem'>
+                        <nav class='js-toc-lg toc navbar navbar-light bg-light sticky-top d-none d-lg-block mb-3'></nav>
+                    </b:if>
                     <b:section id='Side1' showaddelement='yes'>
                         <b:widget id='Label1' locked='false' title='ラベル' type='Label' visible='true' />
                     </b:section>
-                    <b:if cond='data:view.isSingleItem'>
-                        <nav class='js-toc-lg toc navbar navbar-light bg-light sticky-top d-none d-lg-block'></nav>
-                    </b:if>
-                    <b:section id='Side2' showaddelement='yes' />
+                    <b:section id='Side2' showaddelement='yes'>
+                        <b:widget id='BlogArchive1' locked='false' title='' type='BlogArchive' visible='true' />
+                    </b:section>
                 </aside>
             </div>
             <div class='row'>
